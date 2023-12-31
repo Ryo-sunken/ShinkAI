@@ -29,20 +29,36 @@ mod tests {
     #[test]
     fn cwise_mul() {
         let tape = VariableTape::new();
-        let x = tape.variable(Matrix::new([[1.,2.,3.]]));
-        let y = tape.variable(Matrix::new([[2.,3.,4.]]));
+        let x = tape.variable(Matrix::new([[1., 2., 3.]]));
+        let y = tape.variable(Matrix::new([[2., 3., 4.]]));
         let z = x.cwise_mul(y);
-        assert_eq!(z.data(), Matrix::new([[2.,6.,12.]]));
-        assert_eq!(z.creator.unwrap(), Function::CWiseMul(x.data_idx, y.data_idx));
+        assert_eq!(z.data(), Matrix::new([[2., 6., 12.]]));
+        assert_eq!(
+            z.creator.unwrap(),
+            Function::CWiseMul(x.data_idx, y.data_idx)
+        );
     }
 
     #[test]
     fn cwise_div() {
         let tape = VariableTape::new();
-        let x = tape.variable(Matrix::new([[6.,9.,10.]]));
-        let y = tape.variable(Matrix::new([[2.,3.,5.]]));
+        let x = tape.variable(Matrix::new([[6., 9., 10.]]));
+        let y = tape.variable(Matrix::new([[2., 3., 5.]]));
         let z = x.cwise_div(y);
-        assert_eq!(z.data(), Matrix::new([[3.,3.,2.]]));
-        assert_eq!(z.creator.unwrap(), Function::CWiseDiv(x.data_idx, y.data_idx));
+        assert_eq!(z.data(), Matrix::new([[3., 3., 2.]]));
+        assert_eq!(
+            z.creator.unwrap(),
+            Function::CWiseDiv(x.data_idx, y.data_idx)
+        );
+    }
+
+    #[test]
+    fn matmul() {
+        let tape = VariableTape::new();
+        let x = tape.variable(Matrix::new([[1., 2.], [3., 4.]]));
+        let y = tape.variable(Matrix::new([[2., 3., 4.], [5., 6., 7.]]));
+        let z = x * y;
+        assert_eq!(z.data(), Matrix::new([[12., 15., 18.], [26., 33., 40.]]));
+        assert_eq!(z.creator.unwrap(), Function::MatMul(x.data_idx, y.data_idx));
     }
 }
