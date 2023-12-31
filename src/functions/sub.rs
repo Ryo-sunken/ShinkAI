@@ -1,5 +1,5 @@
-use std::ops::Sub;
 use crate::core::handle::{Function, VariableHandle};
+use std::ops::Sub;
 
 impl<'a, T> Sub for VariableHandle<'a, T>
 where
