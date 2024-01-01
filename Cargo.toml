@@ -7,3 +7,4 @@ edition = "2021"
 
 [dependencies]
 matrix = { git = "https://github.com/Ryo-sunken/matrix-rs.git", branch = "main" }
+num-traits = "0.2.17"
