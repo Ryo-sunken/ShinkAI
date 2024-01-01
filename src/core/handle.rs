@@ -17,6 +17,7 @@ pub(crate) enum Function<T> {
     Exp(usize),
     Sin(usize),
     Cos(usize),
+    Sqrt(usize),
     Min(usize, Option<Axis>),
     Max(usize, Option<Axis>),
     Sum(usize, Option<Axis>),
