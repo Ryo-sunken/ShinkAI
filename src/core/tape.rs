@@ -8,19 +8,22 @@ pub(crate) enum Function {
     Add(usize, usize),
     Sub(usize, usize),
     MatMul(usize, usize),
-    Neg(usize),
     ScalarMul(usize, usize),
     ScalarDiv(usize, usize),
     CWiseMul(usize, usize),
     CWiseDiv(usize, usize),
-    Transpose(usize),
+    CWiseMax(usize, usize),
+    CWiseMin(usize, usize),
     Pow(usize, usize),
+    Transpose(usize),
+    Neg(usize),
     Exp(usize),
     Sin(usize),
     Cos(usize),
     Sqrt(usize),
-    Min(usize, Option<Axis>),
+    Concat(usize, Axis),
     Max(usize, Option<Axis>),
+    Min(usize, Option<Axis>),
     Sum(usize, Option<Axis>),
 }
 
@@ -76,7 +79,38 @@ impl<T> VariableTape<T> {
     }
 
     fn generation(&self, creator: Function) -> usize {
-        // TODO: Functionごとのgenerationの計算
-        1
+        match creator {
+            // 二項演算
+            Function::Add(x_idx, y_idx)
+            | Function::Sub(x_idx, y_idx)
+            | Function::MatMul(x_idx, y_idx)
+            | Function::ScalarMul(x_idx, y_idx)
+            | Function::ScalarDiv(x_idx, y_idx)
+            | Function::CWiseMul(x_idx, y_idx)
+            | Function::CWiseDiv(x_idx, y_idx)
+            | Function::CWiseMax(x_idx, y_idx)
+            | Function::CWiseMin(x_idx, y_idx)
+            | Function::Pow(x_idx, y_idx) => {
+                let binding = self.nodes.borrow();
+                let x_gen = binding.get(x_idx).unwrap().generation;
+                let y_gen = binding.get(y_idx).unwrap().generation;
+                max(x_gen, y_gen) + 1
+            },
+            // 一変数関数
+            Function::Transpose(idx)
+            | Function::Neg(idx)
+            | Function::Exp(idx)
+            | Function::Sin(idx)
+            | Function::Cos(idx)
+            | Function::Sqrt(idx)
+            | Function::Concat(idx, _)
+            | Function::Max(idx, _)
+            | Function::Min(idx, _)
+            | Function::Sum(idx, _) => {
+                let binding = self.nodes.borrow();
+                let gen = binding.get(idx).unwrap().generation;
+                gen + 1
+            },
+        }
     }
 }
