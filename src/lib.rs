@@ -17,6 +17,9 @@ mod tests {
         let z = x + y;
         assert_eq!(z.data(), Matrix::new([[5., 7., 9.]]));
         assert_eq!(z.creator().unwrap(), Function::Add(x.data_idx, y.data_idx));
+        assert_eq!(x.generation(), 0);
+        assert_eq!(y.generation(), 0);
+        assert_eq!(z.generation(), 1);
     }
 
     #[test]
@@ -27,6 +30,9 @@ mod tests {
         let z = x - y;
         assert_eq!(z.data(), Matrix::new([[3., 3., 3.]]));
         assert_eq!(z.creator().unwrap(), Function::Sub(x.data_idx, y.data_idx));
+        assert_eq!(x.generation(), 0);
+        assert_eq!(y.generation(), 0);
+        assert_eq!(z.generation(), 1);
     }
 
     #[test]
@@ -40,6 +46,9 @@ mod tests {
             z.creator().unwrap(),
             Function::CWiseMul(x.data_idx, y.data_idx)
         );
+        assert_eq!(x.generation(), 0);
+        assert_eq!(y.generation(), 0);
+        assert_eq!(z.generation(), 1);
     }
 
     #[test]
@@ -53,6 +62,9 @@ mod tests {
             z.creator().unwrap(),
             Function::CWiseDiv(x.data_idx, y.data_idx)
         );
+        assert_eq!(x.generation(), 0);
+        assert_eq!(y.generation(), 0);
+        assert_eq!(z.generation(), 1);
     }
 
     #[test]
@@ -62,7 +74,13 @@ mod tests {
         let y = tape.variable(Matrix::new([[2., 3., 4.], [5., 6., 7.]]));
         let z = x * y;
         assert_eq!(z.data(), Matrix::new([[12., 15., 18.], [26., 33., 40.]]));
-        assert_eq!(z.creator().unwrap(), Function::MatMul(x.data_idx, y.data_idx));
+        assert_eq!(
+            z.creator().unwrap(),
+            Function::MatMul(x.data_idx, y.data_idx)
+        );
+        assert_eq!(x.generation(), 0);
+        assert_eq!(y.generation(), 0);
+        assert_eq!(z.generation(), 1);
     }
 
     #[test]
@@ -75,6 +93,9 @@ mod tests {
         let z = x * 3.;
         assert_eq!(z.data(), Matrix::new([[3., 6., 9.]]));
         assert_eq!(z.creator().unwrap(), Function::ScalarMul(x.data_idx, 3));
+        assert_eq!(x.generation(), 0);
+        assert_eq!(y.generation(), 1);
+        assert_eq!(z.generation(), 1);
     }
 
     #[test]
@@ -84,5 +105,7 @@ mod tests {
         let y = x / 2.;
         assert_eq!(y.data(), Matrix::new([[1., 2., 3.,]]));
         assert_eq!(y.creator().unwrap(), Function::ScalarDiv(x.data_idx, 1));
+        assert_eq!(x.generation(), 0);
+        assert_eq!(y.generation(), 1);
     }
 }
