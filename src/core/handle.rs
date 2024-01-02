@@ -28,7 +28,7 @@ where
             .data
     }
 
-    pub fn creator(self) -> Option<Function> {
+    pub(crate) fn creator(self) -> Option<Function> {
         self.tape
             .nodes
             .borrow()
@@ -36,5 +36,15 @@ where
             .cloned()
             .unwrap()
             .creator
+    }
+
+    pub(crate) fn generation(self) -> usize {
+        self.tape
+            .nodes
+            .borrow()
+            .get(self.data_idx)
+            .cloned()
+            .unwrap()
+            .generation
     }
 }
