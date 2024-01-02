@@ -1,4 +1,4 @@
-use crate::core::tape::VariableTape;
+use crate::core::tape::{Function, VariableTape};
 use matrix::matrix::{Axis, Matrix};
 
 #[allow(dead_code)]
@@ -25,5 +25,16 @@ where
             .get(self.data_idx)
             .cloned()
             .unwrap()
+            .data
+    }
+
+    pub fn creator(self) -> Option<Function<T>> {
+        self.tape
+            .nodes
+            .borrow()
+            .get(self.data_idx)
+            .cloned()
+            .unwrap()
+            .creator
     }
 }
