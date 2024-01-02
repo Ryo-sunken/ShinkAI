@@ -1,5 +1,5 @@
 use crate::core::tape::{Function, VariableTape};
-use matrix::matrix::{Axis, Matrix};
+use matrix::matrix::Matrix;
 
 #[allow(dead_code)]
 #[derive(Clone, Copy, Debug)]
@@ -28,7 +28,7 @@ where
             .data
     }
 
-    pub fn creator(self) -> Option<Function<T>> {
+    pub fn creator(self) -> Option<Function> {
         self.tape
             .nodes
             .borrow()
