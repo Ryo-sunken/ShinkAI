@@ -96,7 +96,7 @@ impl<T: Float> VariableTape<T> {
                 let x_gen = binding.get(x_idx).unwrap().generation;
                 let y_gen = binding.get(y_idx).unwrap().generation;
                 max(x_gen, y_gen) + 1
-            },
+            }
             // 一変数関数
             Function::Transpose(idx)
             | Function::Neg(idx)
@@ -111,7 +111,7 @@ impl<T: Float> VariableTape<T> {
                 let binding = self.nodes.borrow();
                 let gen = binding.get(idx).unwrap().generation;
                 gen + 1
-            },
+            }
         }
     }
 }
