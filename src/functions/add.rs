@@ -1,10 +1,8 @@
 use crate::core::{handle::VariableHandle, tape::Function};
+use num_traits::Float;
 use std::ops::Add;
 
-impl<'a, T> Add for VariableHandle<'a, T>
-where
-    T: Add<Output = T> + Copy,
-{
+impl<'a, T: Float> Add for VariableHandle<'a, T> {
     type Output = VariableHandle<'a, T>;
 
     fn add(self, rhs: Self) -> Self::Output {

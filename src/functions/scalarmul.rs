@@ -1,5 +1,6 @@
 use crate::core::{handle::VariableHandle, tape::Function};
 use matrix::matrix::Matrix;
+use num_traits::Float;
 use std::ops::{Div, Mul, Neg};
 
 macro_rules! defscalarmul {
@@ -23,12 +24,9 @@ macro_rules! defscalarmul {
     };
 }
 
-defscalarmul![i8, i16, i32, isize, u8, u16, u32, usize, f32, f64];
+defscalarmul![f32, f64];
 
-impl<'a, T> Neg for VariableHandle<'a, T>
-where
-    T: Neg<Output = T> + Copy,
-{
+impl<'a, T: Float> Neg for VariableHandle<'a, T> {
     type Output = VariableHandle<'a, T>;
 
     fn neg(self) -> Self::Output {
@@ -42,10 +40,7 @@ where
     }
 }
 
-impl<'a, T> Mul<T> for VariableHandle<'a, T>
-where
-    T: Mul<Output = T> + Copy,
-{
+impl<'a, T: Float> Mul<T> for VariableHandle<'a, T> {
     type Output = VariableHandle<'a, T>;
 
     fn mul(self, rhs: T) -> Self::Output {
@@ -62,10 +57,7 @@ where
     }
 }
 
-impl<'a, T> Div<T> for VariableHandle<'a, T>
-where
-    T: Div<Output = T> + Copy,
-{
+impl<'a, T: Float> Div<T> for VariableHandle<'a, T> {
     type Output = VariableHandle<'a, T>;
 
     fn div(self, rhs: T) -> Self::Output {

@@ -1,10 +1,8 @@
 use crate::core::{handle::VariableHandle, tape::Function};
+use num_traits::Float;
 use std::ops::Sub;
 
-impl<'a, T> Sub for VariableHandle<'a, T>
-where
-    T: Sub<Output = T> + Copy,
-{
+impl<'a, T: Float> Sub for VariableHandle<'a, T> {
     type Output = VariableHandle<'a, T>;
 
     fn sub(self, rhs: Self) -> Self::Output {

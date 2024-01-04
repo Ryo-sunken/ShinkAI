@@ -1,13 +1,8 @@
 use crate::core::{handle::VariableHandle, tape::Function};
-use std::{
-    iter::Sum,
-    ops::{Div, Mul},
-};
+use num_traits::Float;
+use std::{iter::Sum, ops::Mul};
 
-impl<'a, T> VariableHandle<'a, T>
-where
-    T: Mul<Output = T> + Copy,
-{
+impl<'a, T: Float> VariableHandle<'a, T> {
     pub fn cwise_mul(self, rhs: Self) -> Self {
         let result = {
             let binding = self.tape.nodes.borrow();
@@ -20,10 +15,7 @@ where
     }
 }
 
-impl<'a, T> VariableHandle<'a, T>
-where
-    T: Div<Output = T> + Copy,
-{
+impl<'a, T: Float> VariableHandle<'a, T> {
     pub fn cwise_div(self, rhs: Self) -> Self {
         let result = {
             let binding = self.tape.nodes.borrow();
@@ -38,7 +30,7 @@ where
 
 impl<'a, T> Mul for VariableHandle<'a, T>
 where
-    T: Sum + Mul<Output = T> + Copy,
+    T: Sum + Float,
 {
     type Output = VariableHandle<'a, T>;
 
