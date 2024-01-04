@@ -22,6 +22,8 @@ pub(crate) enum Function {
     Sin(usize),
     Cos(usize),
     Sqrt(usize),
+    Tanh(usize),
+    Sigmoid(usize),
     Concat(usize, Axis),
     Max(usize, Option<Axis>),
     Min(usize, Option<Axis>),
@@ -104,6 +106,8 @@ impl<T: Float> VariableTape<T> {
             | Function::Sin(idx)
             | Function::Cos(idx)
             | Function::Sqrt(idx)
+            | Function::Tanh(idx)
+            | Function::Sigmoid(idx)
             | Function::Concat(idx, _)
             | Function::Max(idx, _)
             | Function::Min(idx, _)
