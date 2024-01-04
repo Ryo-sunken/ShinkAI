@@ -1,5 +1,6 @@
 use crate::core::handle::VariableHandle;
 use matrix::matrix::{Axis, Matrix};
+use num_traits::Float;
 use std::cell::RefCell;
 
 #[allow(dead_code)]
@@ -29,7 +30,7 @@ pub(crate) enum Function {
 
 #[allow(dead_code)]
 #[derive(Clone, Debug)]
-pub struct Variable<T> {
+pub struct Variable<T: Float> {
     pub(crate) data: Matrix<T>,
     pub(crate) grad: Option<Matrix<T>>,
     pub(crate) creator: Option<Function>,
@@ -38,7 +39,7 @@ pub struct Variable<T> {
 
 #[allow(dead_code)]
 #[derive(Clone, Debug)]
-pub struct VariableTape<T> {
+pub struct VariableTape<T: Float> {
     pub(crate) nodes: RefCell<Vec<Variable<T>>>,
 }
 
@@ -50,7 +51,7 @@ fn max(x: usize, y: usize) -> usize {
     }
 }
 
-impl<T> VariableTape<T> {
+impl<T: Float> VariableTape<T> {
     pub fn new() -> Self {
         Self {
             nodes: RefCell::new(Vec::new()),
