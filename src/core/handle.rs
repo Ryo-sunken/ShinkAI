@@ -9,16 +9,15 @@ pub struct VariableHandle<'a, T: Float> {
     pub(crate) data_idx: usize,
 }
 
+#[allow(dead_code)]
 impl<'a, T: Float> VariableHandle<'a, T> {
     pub(crate) fn new(tape: &'a VariableTape<T>, data_idx: usize) -> Self {
         Self { tape, data_idx }
     }
 }
 
-impl<'a, T> VariableHandle<'a, T>
-where
-    T: Float + Clone,
-{
+#[allow(dead_code)]
+impl<'a, T: Float> VariableHandle<'a, T> {
     pub fn data(self) -> Matrix<T> {
         self.tape
             .nodes
